@@ -1,0 +1,6 @@
+dos tipo texto 
+uno tipo telefono
+uno tipo fecha
+uno tipo hora
+uno tipo textarea
+bien necesito un formulario, que me pida la hora, fecha, nombre, edad, comentario 
