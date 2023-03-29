@@ -1,40 +1,73 @@
-const form = document.querySelector('#myForm');
-const NameUser = document.querySelector('#NameUser');
-const formDataContainer = document.querySelector('#form-data');
+// Crear la base de datos
+const dbName = "formularioDB";
+const dbVersion = 1;
+const request = indexedDB.open(dbName, dbVersion);
 
-form.addEventListener('submit', (event) => {
-  event.preventDefault(); // evita el comportamiento predeterminado de envío del formulario
+request.onupgradeneeded = event => {
+  const db = event.target.result;
+  const objectStore = db.createObjectStore("formularios", { keyPath: "id", autoIncrement: true });
+};
 
-  const name = document.querySelector('#name').value;
-  const namep = document.querySelector('#namep').value;
-  const date = document.querySelector('#date').value;
-  const time = document.querySelector('#time').value;
-  const comment = document.querySelector('#comment').value;
+request.onerror = event => {
+  console.error("Error al abrir la base de datos:", event.target.error);
+};
 
-  // Crear un elemento de lista y agregar los datos del formulario como elementos de lista
-  const formDataList = document.createElement('ul');
-  const nameItem = document.createElement('li');
-  const namepItem = document.createElement('li');
-  const dateItem = document.createElement('li');
-  const timeItem = document.createElement('li');
-  const commentItem = document.createElement('li');
+// Agregar los datos del formulario a la base de datos
+const form = document.querySelector("form");
+const submitButton = document.querySelector("#submit");
+submitButton.addEventListener("click", event => {
+  event.preventDefault();
 
-  nameItem.textContent = `Nombre: ${name}`;
-  namepItem.textContent = `Psicologa: ${namep}`;
-  dateItem.textContent = `Fecha: ${date}`;
-  timeItem.textContent = `Hora: ${time}`;
-  commentItem.textContent = `Comentario: ${comment}`;
+  const nombre = document.querySelector("#nombre").value;
+  const psicologa = document.querySelector("#psicologa").value;
+  const tel = document.querySelector("#tel").value;
+  const fecha = document.querySelector("#fecha").value;
+  const hora = document.querySelector("#hora").value;
+  const comentario = document.querySelector("#comentario").value;
 
-  formDataList.appendChild(nameItem);
-  formDataList.appendChild(namepItem);
-  formDataList.appendChild(dateItem);
-  formDataList.appendChild(timeItem);
-  formDataList.appendChild(commentItem);
+  const formData = { nombre, psicologa, tel, fecha, hora, comentario };
 
-  // Agregar los datos del formulario a un contenedor de datos del formulario existente en la página
-  formDataContainer.appendChild(formDataList);
-  User.appendChild();
+  const transaction = request.result.transaction("formularios", "readwrite");
+  const objectStore = transaction.objectStore("formularios");
 
-  // Restablecer los valores del formulario después de enviar
-  form.reset();
+  const requestAdd = objectStore.add(formData);
+
+  requestAdd.onsuccess = event => {
+    console.log("Formulario guardado correctamente en la base de datos");
+    mostrarFormulariosGuardados();
+  };
+
+  requestAdd.onerror = event => {
+    console.error("Error al guardar el formulario en la base de datos:", event.target.error);
+  };
 });
+
+// Mostrar los formularios guardados en la base de datos
+function mostrarFormulariosGuardados() {
+  const transaction = request.result.transaction("formularios", "readonly");
+  const objectStore = transaction.objectStore("formularios");
+
+  const requestGetAll = objectStore.getAll();
+
+  requestGetAll.onsuccess = event => {
+    const formulariosGuardados = event.target.result;
+    const ul = document.querySelector("#formularios-guardados");
+    ul.innerHTML = "";
+    formulariosGuardados.forEach(formulario => {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <p>Hora: ${formulario.hora}</p>
+        <p>Fecha: ${formulario.fecha}</p>
+        <p>Nombre: ${formulario.nombre}</p>
+        <p>tel: ${formulario.tel}</p>
+        <p>Comentario: ${formulario.comentario}</p>
+      `;
+      ul.appendChild(li);
+    });
+  };
+  {
+    requestGetAll.onerror = event => {
+      console.error("Error al obtener los formularios guardados:", event.target.error);
+    };
+  }
+}

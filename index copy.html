@@ -20,13 +20,13 @@
             <h2>informacion del camper</h2>
             <form id="myForm">
                 <label class="label" for="name">Nombre:</label>
-                <input class="input" required type="text" id="name" name="name"><br>
+                <input class="input" required type="text" id="nombre" name="name"><br>
 
                 <label class="label" for="name">Psicologa :</label>
-                <input class="input" required type="text" id="namep" name="namep"><br>
+                <input class="input" required type="text" id="psicologa name="namep"><br>
               
                 <label class="label" for="age">Numero de Telefono:</label>
-                <input class="input" required type="tel" id="age" name="age"><br>
+                <input class="input" required type="tel" id="tel" name="age"><br>
               
                 <label class="label" for="date">Fecha:</label>
                 <input class="input" required type="date" id="date" name="date"><br>
@@ -43,15 +43,19 @@
             </div>
         </div>
         <div class="">
-            <div class="respuestas">
-                <div class="Lderecho">
+            <div class="respuestas" >
+                <div class="Lderecho" id="formularios-guardados">
                     <h2>Gestor entrevistas Psicologicas</h2>
                     <div id="data-container">
                       <h2>Datos del formulario:</h2>
-                      <h1 id="NameUser"></h1>
-                      <p id="form-data"></p>
+                      <h2 id="NameUser"></h2>
+                      <h3 id="form-data"></h3>
                     </div>
                 </div>
+            </div>
+
+            <div>
+                <ul id="formularios-guardados"></ul>
             </div>
       </div>
     <script src="js/script.js"></script>

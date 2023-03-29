@@ -1,99 +1,106 @@
-<html lang="en">
-<head>
+<!DOCTYPE html>
+<html>
+  <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psicologia</title>
-    <link rel="stylesheet" href="css/estilos.css">
-</head>
-<body>  
-    <div>
-        <div class="banner">
-            <img src="img/logoWhite.png" class="img-izq" alt="Imagen izquierda">
-            <h1>Entrevistas Psicologicas <span class="blue">CAMPERS</span></h1>
-            <img src="img/jake.jpg" class="img-der" alt="Imagen derecha">
-          </div>          
-    </div>
+    <title>IndexedDB</title>
+  </head>
+  <body>
+    <h1>Formulario</h1>
+    <form>
+      <label for="hora">Hora:</label>
+      <input type="time" id="hora" name="hora" required><br>
 
-    <div>
-        <div class="form Lizquierdo">
-            <h1>informacion del camper</h1>
-            <form id="myForm">
-                <label for="name">Nombre:</label>
-                <input required type="text" id="name" name="name"><br>
+      <label for="fecha">Fecha:</label>
+      <input type="date" id="fecha" name="fecha" required><br>
 
-                <label for="name">Psicologa :</label>
-                <input required type="text" id="namep" name="namep"><br>
-              
-                <label for="age">Numero de Telefono:</label>
-                <input required type="tel" id="age" name="age"><br>
-              
-                <label for="date">Fecha:</label>
-                <input required type="date" id="date" name="date"><br>
-              
-                <label for="time">Hora:</label>
-                <input required type="time" id="time" name="time"><br>
-              
-                <label for="comment">Comentario:</label><br>
-                <textarea required id="comment" name="comment"></textarea><br>
-              
-                <input type="submit" value="Enviar">
-              </form>
-              
-            </div>
-        </div>
-        <div class="">
-            <div class="respuestas">
-                <h1>Gestor entrevistas Psicologicas</h1>
-                <div class="Lderecho">
-                    <div id="data-container">
-                      <h2>Datos del formulario:</h2>
-                      <h1 id="NameUser"></h1>
-                      <p id="form-data"></p>
-                    </div>
-                </div>
-            </div>
-      </div>
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required><br>
 
+      <label for="edad">Edad:</label>
+      <input type="number" id="edad" name="edad" required><br>
 
-      <div id="formulario">
-        <form id="form">
-          <label for="nombre">Nombre:</label>
-          <input type="text" id="nombre" name="nombre" required>
-      
-          <label for="edad">Edad:</label>
-          <input type="number" id="edad" name="edad" required>
-      
-          <label for="fecha">Fecha:</label>
-          <input type="date" id="fecha" name="fecha" required>
-      
-          <label for="hora">Hora:</label>
-          <input type="time" id="hora" name="hora" required>
-      
-          <label for="comentario">Comentario:</label>
-          <textarea id="comentario" name="comentario" required></textarea>
-      
-          <button type="submit">Enviar</button>
-        </form>
-      </div>
-      
-      <div id="datos">
-        <table>
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Edad</th>
-              <th>Fecha</th>
-              <th>Hora</th>
-              <th>Comentario</th>
-              <th></th>
-              <th></th>
-            </tr>
-          </thead>
-            <tbody id="tbody">
-            </tbody>
-        </table>
-        </div>
-    <script src="js/script.js"></script>
-</body>
+      <label for="comentario">Comentario:</label><br>
+      <textarea id="comentario" name="comentario"></textarea><br>
+
+      <input type="submit" value="Enviar" id="submit">
+    </form>
+
+    <h2>Formularios guardados</h2>
+    <ul id="formularios-guardados"></ul>
+
+    <script>
+      // Crear la base de datos
+      const dbName = "formularioDB";
+      const dbVersion = 1;
+      const request = indexedDB.open(dbName, dbVersion);
+
+      request.onupgradeneeded = event => {
+        const db = event.target.result;
+        const objectStore = db.createObjectStore("formularios", { keyPath: "id", autoIncrement: true });
+      };
+
+      request.onerror = event => {
+        console.error("Error al abrir la base de datos:", event.target.error);
+      };
+
+      // Agregar los datos del formulario a la base de datos
+      const form = document.querySelector("form");
+      const submitButton = document.querySelector("#submit");
+      submitButton.addEventListener("click", event => {
+        event.preventDefault();
+
+        const hora = document.querySelector("#hora").value;
+        const fecha = document.querySelector("#fecha").value;
+        const nombre = document.querySelector("#nombre").value;
+        const edad = document.querySelector("#edad").value;
+        const comentario = document.querySelector("#comentario").value;
+
+        const formData = { hora, fecha, nombre, edad, comentario };
+
+        const transaction = request.result.transaction("formularios", "readwrite");
+        const objectStore = transaction.objectStore("formularios");
+
+        const requestAdd = objectStore.add(formData);
+
+        requestAdd.onsuccess = event => {
+          console.log("Formulario guardado correctamente en la base de datos");
+          mostrarFormulariosGuardados();
+        };
+
+        requestAdd.onerror = event => {
+          console.error("Error al guardar el formulario en la base de datos:", event.target.error);
+        };
+      });
+
+      // Mostrar los formularios guardados en la base de datos
+      function mostrarFormulariosGuardados() {
+        const transaction = request.result.transaction("formularios", "readonly");
+        const objectStore = transaction.objectStore("formularios");
+
+        const requestGetAll = objectStore.getAll();
+
+        requestGetAll.onsuccess = event => {
+          const formulariosGuardados = event.target.result;
+          const ul = document.querySelector("#formularios-guardados");
+          ul.innerHTML = "";
+          formulariosGuardados.forEach(formulario => {
+            const li = document.createElement("li");
+            li.innerHTML = `
+              <p>Hora: ${formulario.hora}</p>
+              <p>Fecha: ${formulario.fecha}</p>
+              <p>Nombre: ${formulario.nombre}</p>
+              <p>Edad: ${formulario.edad}</p>
+              <p>Comentario: ${formulario.comentario}</p>
+            `;
+            ul.appendChild(li);
+          });
+        };
+        {
+          requestGetAll.onerror = event => {
+            console.error("Error al obtener los formularios guardados:", event.target.error);
+          };
+        }
+      }
+    </script>
+  </body>
 </html>
