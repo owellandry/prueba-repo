@@ -6,41 +6,94 @@
     <title>Psicologia</title>
     <link rel="stylesheet" href="css/estilos.css">
 </head>
-<body>
+<body>  
     <div>
-        <nav class="nav">
-            <div class="wrapper">
-                <div>imagen de campus</div>
-                <div><h1>texto en h1</h1></div>
-                <div>foto de anguie</div>
-              </div>              
-        </nav>
+        <div class="banner">
+            <img src="img/logoWhite.png" class="img-izq" alt="Imagen izquierda">
+            <h1>Entrevistas Psicologicas <span class="blue">CAMPERS</span></h1>
+            <img src="img/jake.jpg" class="img-der" alt="Imagen derecha">
+          </div>          
     </div>
 
     <div>
-        <div class="form">
-            <form class="Lizquierdo">
-                <label for="name">Nombre</label>
-                <input type="text" name="name" id="name" placeholder="Nombre"><br>
-                <label for="email">Correo</label>
-                <input type="email" name="email" id="email" placeholder="Correo"><br>
-                <label for="message">Mensaje</label>
-                <textarea name="message" id="message" cols="30" rows="10" placeholder="Mensaje"></textarea><br>
+        <div class="form Lizquierdo">
+            <h1>informacion del camper</h1>
+            <form id="myForm">
+                <label for="name">Nombre:</label>
+                <input required type="text" id="name" name="name"><br>
+
+                <label for="name">Psicologa :</label>
+                <input required type="text" id="namep" name="namep"><br>
+              
+                <label for="age">Numero de Telefono:</label>
+                <input required type="tel" id="age" name="age"><br>
+              
+                <label for="date">Fecha:</label>
+                <input required type="date" id="date" name="date"><br>
+              
+                <label for="time">Hora:</label>
+                <input required type="time" id="time" name="time"><br>
+              
+                <label for="comment">Comentario:</label><br>
+                <textarea required id="comment" name="comment"></textarea><br>
+              
                 <input type="submit" value="Enviar">
-            </form>
-        </div>
-    </div>
-    <div class="">
-        <div class="respuestas">
-            <div class="Lderecho">
-                <h1>Respuestas</h1>
-                <div class="respuesta">
-                    <h2>Nombre</h2>
-                    <p>Respuesta</p>
-                </div>
+              </form>
+              
             </div>
         </div>
-    </div>
-    <script src="   js/script.js"></script>
+        <div class="">
+            <div class="respuestas">
+                <h1>Gestor entrevistas Psicologicas</h1>
+                <div class="Lderecho">
+                    <div id="data-container">
+                      <h2>Datos del formulario:</h2>
+                      <h1 id="NameUser"></h1>
+                      <p id="form-data"></p>
+                    </div>
+                </div>
+            </div>
+      </div>
+
+
+      <div id="formulario">
+        <form id="form">
+          <label for="nombre">Nombre:</label>
+          <input type="text" id="nombre" name="nombre" required>
+      
+          <label for="edad">Edad:</label>
+          <input type="number" id="edad" name="edad" required>
+      
+          <label for="fecha">Fecha:</label>
+          <input type="date" id="fecha" name="fecha" required>
+      
+          <label for="hora">Hora:</label>
+          <input type="time" id="hora" name="hora" required>
+      
+          <label for="comentario">Comentario:</label>
+          <textarea id="comentario" name="comentario" required></textarea>
+      
+          <button type="submit">Enviar</button>
+        </form>
+      </div>
+      
+      <div id="datos">
+        <table>
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Edad</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Comentario</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+            <tbody id="tbody">
+            </tbody>
+        </table>
+        </div>
+    <script src="js/script.js"></script>
 </body>
 </html>

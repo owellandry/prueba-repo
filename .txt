@@ -4,3 +4,5 @@ uno tipo fecha
 uno tipo hora
 uno tipo textarea
 bien necesito un formulario, que me pida la hora, fecha, nombre, edad, comentario 
+
+bien, ahora hagamos que los datos que ingrese el usuario se queden guardado en el localstorage

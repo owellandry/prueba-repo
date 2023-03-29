@@ -17,40 +17,43 @@
 
     <div>
         <div class="form Lizquierdo">
-            <form>
-                <label for="nombre">Nombre: </label>
-                <input type="text" id="nombre" name="nombre" required><br>
+            <h2>informacion del camper</h2>
+            <form id="myForm">
+                <label class="label" for="name">Nombre:</label>
+                <input class="input" required type="text" id="name" name="name"><br>
 
-                <label for="nombre">Psicologa: </label>
-                <input type="text" id="nombre" name="nombre" required><br>
+                <label class="label" for="name">Psicologa :</label>
+                <input class="input" required type="text" id="namep" name="namep"><br>
               
-                <label for="edad">Numero de celular: </label>
-                <input type="tel" id="edad" name="edad" required><br>
+                <label class="label" for="age">Numero de Telefono:</label>
+                <input class="input" required type="tel" id="age" name="age"><br>
               
-                <label for="fecha">Fecha: </label>
-                <input type="date" id="fecha" name="fecha" required><br>
+                <label class="label" for="date">Fecha:</label>
+                <input class="input" required type="date" id="date" name="date"><br>
               
-                <label for="hora">Hora: </label>
-                <input type="time" id="hora" name="hora" required><br>
+                <label class="label" for="time">Hora:</label>
+                <input class="input" required type="time" id="time" name="time"><br>
               
-                <label for="comentario">Comentario: </label>
-                <textarea id="comentario" name="comentario" rows="4" cols="40"></textarea><br>
+                <label class="label" for="comment">Comentario:</label><br>
+                <texta class="input"rea required id="comment" name="comment"></textarea><br>
               
-                <button type="submit">Enviar</button>
-              </form>              
-        </div>
-    </div>
-    <div class="">
-        <div class="respuestas">
-            <div class="Lderecho">
-                <h1>Respuestas</h1>
-                <div class="respuesta">
-                    <h2>Nombre</h2>
-                    <p>Respuesta</p>
-                </div>
+                <input type="submit" value="Enviar">
+              </form>
+              
             </div>
         </div>
-    </div>
+        <div class="">
+            <div class="respuestas">
+                <div class="Lderecho">
+                    <h2>Gestor entrevistas Psicologicas</h2>
+                    <div id="data-container">
+                      <h2>Datos del formulario:</h2>
+                      <h1 id="NameUser"></h1>
+                      <p id="form-data"></p>
+                    </div>
+                </div>
+            </div>
+      </div>
     <script src="js/script.js"></script>
 </body>
 </html>
